@@ -1,1 +1,32 @@
 Laravel Eloquent Model
+
+1.所有的Eloquent模型都继承于Illuminate\Database\Eloquent\Model
+  Eloquent也会假设每个数据库表都有一个字段名称为id的主键，可以在自己定义的类中重写primaryKey。
+同样的，也可以的定义自己的connection属性，来指定模型连接到指定的数据库连接。在默认的情况下，在
+数据库表中需要有updated_at 和 created_at两个字段。如果不想自动更新这两个字段，则可以将类里面的$timestamps
+的属性设为false。
+Tips：所有laravel查询构造器中的方法，查询模型Eloquent中也可以使用。
+
+2.根据主键取出一条数据或抛出异常
+ 
+ findOrFail() 官方解释：
+ 
+ Doing this will let you catch the exception so you can log and display an error page as necessary. To catch the ModelNotFoundException, add some logic to your app/Exceptions/Handler.php file.
+ 
+ example：
+   use Illuminate\Database\Eloquent\ModelNotFoundException;
+   class Handler extends ExceptionHandler {
+
+    public function render($request, Exception $e)
+    {
+        if ($e instanceof ModelNotFoundException)
+        {
+            // Custom logic for model not found...
+        }
+
+        return parent::render($request, $e);
+    }
+
+ }
+
+
