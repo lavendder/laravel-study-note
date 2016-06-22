@@ -28,5 +28,55 @@ Tips：所有laravel查询构造器中的方法，查询模型Eloquent中也可�
     }
 
  }
+ 
+3.批量赋值
+  在建立一个新模型时，把属性以数组的方式传入模型的构造方法，这些属性会经由批量赋值存成模型数据。
+需要定义fillable和guarded属性
+protected fillable = array(); //白名单 这个数组里面的值是允许批量赋值的
+protected guarded = array('*');  //与fillable相反 意为黑名单 array('*')阻止所有的属性被批量赋值
+注意：使用guarded时，Input::get()或任何用户可以控制的未过滤数据，永远不应该传入save或update方法，因为
+没有在黑名单内的字段可能被更新。
 
-
+4.增、删、改
+通常Eloquent模型主键会自动递增，如果需要自定义主键，将incrementing属性设为false。
+create方法，新增完成后会返回新增新增的模型实例。
+example：
+public static function create(array $a) 
+{
+   $m = new static($a);
+   $m ->saave();
+   return $m;   
+}
+save方法
+ public function save(array $options = array())
+	{
+		$query = $this->newQueryWithoutScopes();
+		// If the "saving" event returns false we'll bail out of the save and return
+		// false, indicating that the save failed. This provides a chance for any
+		// listeners to cancel save operations if validations fail or whatever.
+		if ($this->fireModelEvent('saving') === false)
+		{
+			return false;
+		}
+		// If the model already exists in the database we can just update our record
+		// that is already in this database using the current IDs in this "where"
+		// clause to only update this model. Otherwise, we'll just insert them.
+		if ($this->exists)
+		{
+			$saved = $this->performUpdate($query, $options);
+		}
+		// If the model is brand new, we'll insert it into our database and set the
+		// ID attribute on the model to the value of the newly inserted row's ID
+		// which is typically an auto-increment value managed by the database.
+		else
+		{
+			$saved = $this->performInsert($query, $options);
+		}
+		if ($saved) $this->finishSave($options);
+		return $saved;
+	}
+	
+5.关联	
+	
+	
+	
