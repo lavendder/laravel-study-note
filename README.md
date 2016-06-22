@@ -1,1 +1,2 @@
-# laravel-
+# study laravel;
+Eloquent Model
