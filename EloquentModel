@@ -80,5 +80,8 @@ save方法
   数据库中的表很可能和另外一个关联，Eloquent可以处理和管理这些关联。
   定义一对一关联 hasOne()
   
+  
+具体可以研读一下https://github.com/laravel/framework/blob/5.0/src/Illuminate/Database/Eloquent/Model.php#L1460    
+  
 	
 	

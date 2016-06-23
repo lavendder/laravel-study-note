@@ -1,0 +1,1 @@
+Laravel的event功能提供一个简单的观察者实现，允许你在应用程序里订阅与监听事件。事件类通常被保存在 app/Events 目录下，而它们的处理程序则被保存在 app/Handlers/Events 目录下。
